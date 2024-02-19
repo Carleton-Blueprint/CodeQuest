@@ -29,7 +29,7 @@ const CodeEditor = ({ language, setLanguage, code, setCode, problemId }: { langu
     <div className="flex flex-col gap-y-5 h-full w-full">
       <div className="w-full  px-5 py-1 flex gap-x-5 bg-transparent border-b  items-center">
         {/* <Button size={"icon"} variant={"outline"} className='text-black'> <Code2Icon/> </Button> */}
-        <SelectLanguage language={language} setLanguage={setLanguage} />
+        {/* <SelectLanguage language={language} setLanguage={setLanguage} /> */}
         <Button
           onClick={() => {
             toast({

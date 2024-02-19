@@ -1,5 +1,5 @@
 import { Problem, StartCodeInterface } from "@/lib";
-
+import assert from "assert"
 // interface startCodeInterface { 
 //     [key: string]: string
 // }
@@ -28,41 +28,10 @@ public class TwoSum {
 }
 
         `;
-const pythonCode = `
-
-class TwoSum:
-    @staticmethod
-    def twoSum(nums, target):
-       
-
-#  DO NOT CHANGE THE MAIN METHOD
-if __name__ == "__main__":
-    result1 = TwoSum.twoSum([2, 7, 11, 15], 9)
-    result2 = TwoSum.twoSum([3, 2, 4], 6)
-    result3 = TwoSum.twoSum([3, 3], 6)
-    result4 = TwoSum.twoSum([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], 11)
-    
-    print(result1)
-    print(result2)
-    print(result3)
-    print(result4)
-
-`;
 
 
-const starterCode :StartCodeInterface = {
-    python: pythonCode, 
-    java: javaCode
-}
 
-interface testCaseInterface {
-  input: {
-    nums: number[];
-    target: number;
-  };
-  output: number[];
-}
-const testCases: testCaseInterface[] = [
+const testCases= [
   {
     input: {
       nums: [2, 7, 11, 15],
@@ -93,6 +62,62 @@ const testCases: testCaseInterface[] = [
   },
 ];
 
+const handlerFunction = (fn: string) => {
+
+
+ const remainingCode =
+   testCases
+     .map((testCase, index) => {
+       return `result${index + 1} = solution([${testCase.input.nums}], ${testCase.input.target})`;
+     })
+     .join("\n") +
+   "\n" +
+   testCases
+     .map((_, index) => {
+       return `print(result${index + 1})`;
+     })
+     .join("\n");
+
+  let newCode = `
+${fn}
+${remainingCode}
+`;
+  return newCode;
+};
+const pythonCode = `def solution(nums, target):`;
+const starterCode: StartCodeInterface = {
+  python: pythonCode,
+  java: javaCode,
+};
+
+const codeTester = (output: string) => {
+  let user_output = output.split("\n");
+  let marks = [] 
+  let user_answers = [] 
+  try {
+    for (let i = 0; i < testCases.length; i++) {
+      let value = JSON.parse(user_output[i]);
+      user_answers.push(value);
+      assert.deepEqual(value, testCases[i].output);
+      marks.push(true);
+    }
+  } catch (error: any) {
+    console.error("Error from codeTester: ", error);
+    // throw new Error(error);
+    let final_result = { 
+      message : error
+    }
+    return JSON.stringify(final_result)
+  }
+  
+
+  let final_results = {
+    marks: marks, 
+    user_answers: user_answers, 
+    message: ""
+  }
+  return JSON.stringify(final_results)
+};
 
 export const twoSum: Problem = {
   id: "two-sum",
@@ -137,7 +162,9 @@ export const twoSum: Problem = {
 </li>`,
   //   handlerFunction: handlerTwoSum,
   starterCode: starterCode,
+  handlerFunction: handlerFunction,
   order: 1,
-  starterFunctionName: "function twoSum(",
+//  handler: fn, 
   testCases: testCases,
+  codeTester: codeTester, 
 };
