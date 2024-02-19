@@ -1,15 +1,12 @@
 import { palindrome } from "./data/problems/is-palindrome";
 import { twoSum } from "./data/problems/two-sum";
-
+import { validParenthesis } from "./data/problems/valid-parentheses";
 export interface StartCodeInterface { 
     [key: string]: string;
 }
 
 interface TestCaseInterface {
-    input: {
-        nums: any;
-        target: any;
-    };
+    input:any
     output: any;
 }
 
@@ -28,7 +25,8 @@ export interface Problem {
     constraints: string;
     starterCode: StartCodeInterface;
     order: number;
-    starterFunctionName: string;
+    handlerFunction: any,
+    codeTester: any, 
     testCases: TestCaseInterface[];
 }
 
@@ -38,7 +36,8 @@ interface ProblemInterface {
 export const problems: ProblemInterface = { 
     "two-sum": twoSum, 
     "is-palindrome": palindrome, 
+    "valid-parenthesis": validParenthesis
 }
 
 
-export const problemList: string[] = ["two-sum", "is-palindrome"]
+export const problemList: string[] = ["two-sum", "is-palindrome", "valid-parenthesis"]
