@@ -1,29 +1,25 @@
-import { Editor } from '@monaco-editor/react';
-import React, { useEffect, useRef, useState } from 'react'
-import { Button } from '../ui/button';
-import { Copy, ExternalLinkIcon } from 'lucide-react';
-import { SelectLanguage } from './selectLanguage';
-import { toast } from '../ui/use-toast';
-import { problems } from '@/lib';
+import { Editor } from "@monaco-editor/react";
+import React, { useEffect, useRef, useState } from "react";
+import { Button } from "../ui/button";
+import { Copy, ExternalLinkIcon } from "lucide-react";
+import { SelectLanguage } from "./selectLanguage";
+import { toast } from "../ui/use-toast";
+import { problems } from "@/lib";
 
-const CodeEditor = ({ language, setLanguage, code, setCode, problemId }: { language:string, setLanguage: any, code: string, setCode: any, problemId:string }) => {
-  
-    const problemInfo = problems[problemId]
-      function handleEditorChange(value: any, event: any) {
-        
-          setCode(value); 
+const CodeEditor = ({ language, setLanguage, code, setCode, problemId }: { language: string; setLanguage: any; code: string; setCode: any; problemId: string }) => {
+  const problemInfo = problems[problemId];
+  function handleEditorChange(value: any, event: any) {
+    setCode(value);
   }
-   const editorRef = useRef();
-    const onMount = (editor: any) => {
-      editorRef.current = editor;
-      editor.focus();
+  const editorRef = useRef();
+  const onMount = (editor: any) => {
+    editorRef.current = editor;
+    editor.focus();
   };
-  
-  useEffect(() => { 
-  
-    setCode(problemInfo.starterCode[language]);
 
-  },[language, setCode])
+  useEffect(() => {
+    setCode(problemInfo.starterCode[language]);
+  }, [language, setCode]);
 
   return (
     <div className="flex flex-col gap-y-5 h-full w-full">
@@ -32,6 +28,7 @@ const CodeEditor = ({ language, setLanguage, code, setCode, problemId }: { langu
         {/* <SelectLanguage language={language} setLanguage={setLanguage} /> */}
         <Button
           onClick={() => {
+            navigator.clipboard.writeText(code);
             toast({
               title: "System",
               description: "Code copied",
@@ -45,11 +42,7 @@ const CodeEditor = ({ language, setLanguage, code, setCode, problemId }: { langu
           {" "}
           <Copy size={20} />
         </Button>
-        <Button
-          size={"icon"}
-          className="h-[25px] w-[25px] text-xs "
-          variant={"secondary"}
-        >
+        <Button size={"icon"} className="h-[25px] w-[25px] text-xs " variant={"secondary"}>
           {" "}
           <ExternalLinkIcon size={20} />
         </Button>
@@ -79,6 +72,6 @@ const CodeEditor = ({ language, setLanguage, code, setCode, problemId }: { langu
       />
     </div>
   );
-}
+};
 
 export default CodeEditor;
